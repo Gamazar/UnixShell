@@ -1,0 +1,33 @@
+Readme file:
+
+**IMPORTANT FOR RUNNING**
+-YOU MUST SPACE OUT ALL OF THE COMMANDS! 
+-YOU HAVE TO USE COMMANDS SUCH AS:  ls -l | less
+-DO NOT COMBINE SUCH AS: ls -l|less or cat>test.txt
+**************************
+
+
+-Summary of Unix.c-
+
+
+The main loop:
+	-In the main loop, we are checking the user input of commands. 
+	-We then parse through the commands using strtok
+	-Maximum of 10 spaced inputs
+	-Limit 1024 characters.
+	-We loop through the user input and check the user input for "exit", "!!", or commands.
+		-Then we check if there exists a redirect and a pipe.
+			-Since the project doc said we assume no multiple redirects, multiple pipes, or a combination of redirects and pipes.
+		-If there exists a redirect, then run handleRedirect
+			-handleRedirect will create a child process to open the file, and do the respected redirect to the STDOUT (execvp).
+		-If there exists a pipe, then run handlePipe.
+			-handlePipe will create 2 child process:
+				-First child1 will run the open the write end of the pipe (left of the | ), Second child2 will run the read end of the pipe (right of the | ).
+		-If user input does not have a redirect or pipe, then run decision.
+			-decision will create a child process to execute the command execvp.
+		-After, the checks, we then store the command into -history char pointer array-.
+	 
+		-If user input == "!!", then we will execute the commands stored in -history char pointer array-.
+		-history char pointer array: contains the last executed code.
+		-We do not update history after this executed command.
+		-If user input =="exit" or "EXIT", then we exit out of the program.
